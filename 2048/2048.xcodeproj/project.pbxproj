@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		431979171E7B0B070017E61E /* Arial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 431979161E7B0B070017E61E /* Arial Black.ttf */; };
 		4344F9C41E7AF1F900180159 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344F9C31E7AF1F900180159 /* GameOverScene.swift */; };
 		4344F9C61E7AF20800180159 /* TitleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344F9C51E7AF20800180159 /* TitleScene.swift */; };
 		4344F9C81E7AF21300180159 /* ScoreScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344F9C71E7AF21300180159 /* ScoreScene.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		431979161E7B0B070017E61E /* Arial Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Arial Black.ttf"; path = "../../../../../../Library/Fonts/Arial Black.ttf"; sourceTree = "<group>"; };
 		4344F9C31E7AF1F900180159 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		4344F9C51E7AF20800180159 /* TitleScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleScene.swift; sourceTree = "<group>"; };
 		4344F9C71E7AF21300180159 /* ScoreScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreScene.swift; sourceTree = "<group>"; };
@@ -115,18 +117,19 @@
 		43D873CE1E7AE318004101DA /* 2048 */ = {
 			isa = PBXGroup;
 			children = (
+				431979161E7B0B070017E61E /* Arial Black.ttf */,
 				43D873CF1E7AE318004101DA /* AppDelegate.swift */,
-				43D873D11E7AE318004101DA /* GameScene.sks */,
 				43D873D31E7AE318004101DA /* Actions.sks */,
-				43D873D51E7AE318004101DA /* GameScene.swift */,
 				43D873D71E7AE318004101DA /* GameViewController.swift */,
 				43D873D91E7AE318004101DA /* Main.storyboard */,
+				43D873D51E7AE318004101DA /* GameScene.swift */,
 				4344F9C31E7AF1F900180159 /* GameOverScene.swift */,
-				4344F9C51E7AF20800180159 /* TitleScene.swift */,
 				4344F9C71E7AF21300180159 /* ScoreScene.swift */,
+				4344F9C51E7AF20800180159 /* TitleScene.swift */,
 				43D873DC1E7AE318004101DA /* Assets.xcassets */,
 				43D873DE1E7AE318004101DA /* LaunchScreen.storyboard */,
 				43D873E11E7AE318004101DA /* Info.plist */,
+				43D873D11E7AE318004101DA /* GameScene.sks */,
 				43D874031E7AE392004101DA /* GameOverScene.sks */,
 				43D874071E7AE6AD004101DA /* ScoreScene.sks */,
 				43D874051E7AE3BD004101DA /* TitleScene.sks */,
@@ -267,6 +270,7 @@
 				43D873DD1E7AE318004101DA /* Assets.xcassets in Resources */,
 				43D873E01E7AE318004101DA /* LaunchScreen.storyboard in Resources */,
 				43D874041E7AE392004101DA /* GameOverScene.sks in Resources */,
+				431979171E7B0B070017E61E /* Arial Black.ttf in Resources */,
 				43D873D41E7AE318004101DA /* Actions.sks in Resources */,
 				43D874061E7AE3BD004101DA /* TitleScene.sks in Resources */,
 				43D874081E7AE6AD004101DA /* ScoreScene.sks in Resources */,
