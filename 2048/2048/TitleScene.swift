@@ -14,6 +14,7 @@ class TitleScene: SKScene {
     private var btn_newGame: SKLabelNode?
     private var btn_highScores: SKLabelNode?
     private var btn_instructions: SKLabelNode?
+    private var img_instructions: SKSpriteNode?
     
     override func didMove(to view: SKView) {
         
@@ -21,7 +22,12 @@ class TitleScene: SKScene {
         self.btn_newGame = self.childNode(withName: "btn_play") as? SKLabelNode
         self.btn_instructions = self.childNode(withName: "btn_instructions") as? SKLabelNode
         self.btn_highScores = self.childNode(withName: "btn_highscore") as? SKLabelNode
-
+        self.img_instructions = self.childNode(withName: "img_instructions")as? SKSpriteNode
+        
+        if !((img_instructions?.isHidden)!)
+        {
+            img_instructions?.isHidden = true
+        }
     }
     
     
@@ -47,7 +53,13 @@ class TitleScene: SKScene {
             }
         }
         if (btn_instructions?.contains(touch.location(in: self)))! {
-            print("instructions")
+            if !((img_instructions?.isHidden)!)
+            {
+                img_instructions?.isHidden = true
+            }
+            else{
+                img_instructions?.isHidden = false
+            }
         }
 
     }
