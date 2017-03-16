@@ -27,7 +27,7 @@ class ScoreScene: SKScene {
                 scene.scaleMode = .aspectFill
                 
                 // Present the scene
-                self.scene?.view?.presentScene(scene, transition: SKTransition.doorsCloseHorizontal(withDuration: 1.0));
+                self.scene?.view?.presentScene(scene, transition: SKTransition.crossFade(withDuration: 1.0));
             }
         }
     }

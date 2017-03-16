@@ -43,7 +43,7 @@ class TitleScene: SKScene {
                 scene.scaleMode = .aspectFill
                 
                 // Present the scene
-                self.scene?.view?.presentScene(scene, transition: SKTransition.doorsCloseHorizontal(withDuration: 1.0));
+                self.scene?.view?.presentScene(scene, transition: SKTransition.flipVertical(withDuration: 1.0));
             }
         }
         if (btn_instructions?.contains(touch.location(in: self)))! {

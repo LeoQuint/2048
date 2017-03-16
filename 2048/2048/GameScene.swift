@@ -30,7 +30,7 @@ class GameScene: SKScene {
                 scene.scaleMode = .aspectFill
                 
                 // Present the scene
-                self.scene?.view?.presentScene(scene, transition: SKTransition.doorsCloseHorizontal(withDuration: 1.0));
+                self.scene?.view?.presentScene(scene, transition: SKTransition.doorway(withDuration: 1.0));
             }
         }
         if (btn_return?.contains(touch.location(in: self)))! {
@@ -39,7 +39,7 @@ class GameScene: SKScene {
                 scene.scaleMode = .aspectFill
                 
                 // Present the scene
-                self.scene?.view?.presentScene(scene, transition: SKTransition.doorsCloseHorizontal(withDuration: 1.0));
+                self.scene?.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1.0));
             }
         }
         
