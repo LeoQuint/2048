@@ -48,10 +48,20 @@ class ScoreScene: SKScene {
     func LoadScore()
     {
         let defaults = UserDefaults.standard
-        for i in 0...10
+        for i in 0...9
         {
-            scores[i] = Int(defaults.string(forKey: defaultKeys.keys[i])!)!
+            scores[i] = ((defaults.string(forKey: defaultKeys.keys[i])) != nil) ? (Int(defaults.string(forKey: defaultKeys.keys[i])!)!) : 0
         }
+        score1?.text = String(scores[0])
+        score2?.text = String(scores[1])
+        score3?.text = String(scores[2])
+        score4?.text = String(scores[3])
+        score5?.text = String(scores[4])
+        score6?.text = String(scores[5])
+        score7?.text = String(scores[6])
+        score8?.text = String(scores[7])
+        score9?.text = String(scores[8])
+        score10?.text = String(scores[9])
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

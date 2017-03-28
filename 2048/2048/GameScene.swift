@@ -81,9 +81,9 @@ class GameScene: SKScene {
     }
     
     override func sceneDidLoad() {
-        InitializeGame()
         self.scoreLabel = self.childNode(withName: "lbl_Score") as? SKLabelNode
         self.highScoreLabel = self.childNode(withName: "lbl_HighScore") as? SKLabelNode
+        InitializeGame()
     }
 
     
@@ -419,6 +419,7 @@ class GameScene: SKScene {
         }
         scoreLabel?.text = ("Score: " + String(score))
         if (cheekyDown && cheekyUp && cheekyLeft && cheekyRight){
+            SaveScore()
             if let scene = GameOverScene(fileNamed: "GameOverScene") {
                 scene.scaleMode = .aspectFill
                 self.scene?.view?.presentScene(scene, transition: SKTransition.doorway(withDuration: 1.0));
@@ -429,17 +430,18 @@ class GameScene: SKScene {
     func LoadScore()
     {
         let defaults = UserDefaults.standard
-        for i in 0...10
+        for i in 0...9
         {
-            scores[i] = Int(defaults.string(forKey: defaultKeys.keys[i])!)!
+            scores[i] = ((defaults.string(forKey: defaultKeys.keys[i])) != nil) ? (Int(defaults.string(forKey: defaultKeys.keys[i])!)!) : 0
         }
     }
     
     func SaveScore()
     {
         let defaults = UserDefaults.standard
+        scores.append(score)
         scores.sort{return $0>$1}
-        for i in 0...10
+        for i in 0...9
         {
             defaults.setValue(scores[i], forKey: defaultKeys.keys[i])
         }
@@ -448,6 +450,7 @@ class GameScene: SKScene {
     
     func InitializeGame(){
         board = Array(repeating: Array(repeating: 0, count: 4), count: 4)
+        LoadScore()
         highScoreLabel?.text = ("High Score: " + String(scores[0]))
         
         score = 0
