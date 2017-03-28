@@ -15,9 +15,14 @@ class GameScene: SKScene {
     private var btn_return: SKLabelNode?
     private var selectedShape: SKShapeNode?
     private var selectedLabel: SKLabelNode?
+    private var scoreLabel: SKLabelNode?
     
-    
-    
+    private var cheekyDown = false
+    private var cheekyUp = false
+    private var cheekyLeft = false
+    private var cheekyRight = false
+
+    private var score = 0
     //Colors tiles
     private var color_Zero: SKColor? = SKColor (colorLiteralRed: 0.8, green: 0.76, blue: 0.71, alpha: 1.0)
     private var color_P1: SKColor? = SKColor (colorLiteralRed: 0.93, green: 0.89, blue: 0.85, alpha: 1.0)//2
@@ -47,6 +52,13 @@ class GameScene: SKScene {
         self.btn_newGame = self.childNode(withName: "btn_newGame") as? SKLabelNode
         self.btn_return = self.childNode(withName: "btn_Return") as? SKLabelNode
         
+        if (cheekyDown && cheekyUp && cheekyLeft && cheekyRight){
+            if let scene = GameOverScene(fileNamed: "GameOverScene") {
+                scene.scaleMode = .aspectFill
+                self.scene?.view?.presentScene(scene, transition: SKTransition.doorway(withDuration: 1.0));
+            }
+        }
+        
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedRight(recognizer:)))
         swipeRight.direction = .right
         view.addGestureRecognizer(swipeRight)
@@ -70,30 +82,25 @@ class GameScene: SKScene {
     
     override func sceneDidLoad() {
         InitializeGame()
-       
+        self.scoreLabel = self.childNode(withName: "lbl_Score") as? SKLabelNode
     }
-    
 
     
     
-    
     func swipedRight(recognizer:UISwipeGestureRecognizer){
-        print("swiped right")
         CalculateTurn(direction: 1)
     }
     
     func swipedLeft(recognizer:UISwipeGestureRecognizer){
-        print("swiped left")
         CalculateTurn(direction: 0)
     }
     
     func swipedUp(recognizer:UISwipeGestureRecognizer){
-        print("swiped up")
         CalculateTurn(direction: 2)
     }
     
     func swipedDown(recognizer:UISwipeGestureRecognizer){
-        print("swiped down")
+        CalculateTurn(direction: 3)
     }
     
     
@@ -186,8 +193,19 @@ class GameScene: SKScene {
         
     }
     
+    func AddNumber()
+    {
+        var diceRoll3 = Int(arc4random_uniform(4))
+        var diceRoll4 = Int(arc4random_uniform(4))
+        while (board[diceRoll3][diceRoll4] != 0) {
+            diceRoll3 = Int(arc4random_uniform(4))
+            diceRoll4 = Int(arc4random_uniform(4))
+        }
+        ChangeNodeNumber(row: diceRoll3, col: diceRoll4, value: 2**Int(arc4random_uniform(2) + 1))
+    }
+    
     func CalculateTurn(direction:Int){
-        
+        var moved = false
         switch direction {
         case -1:
             for x in 0...3
@@ -210,6 +228,7 @@ class GameScene: SKScene {
                         if (board[x][i] == 0){
                             ChangeNodeNumber(row: x, col: i, value: board[x][y])
                             ChangeNodeNumber(row: x, col: y, value: 0)
+                            moved = true
                             break
                         }
                     }
@@ -221,7 +240,9 @@ class GameScene: SKScene {
                     }
                     if (board[x][y-1] == board[x][y]){
                         ChangeNodeNumber(row: x, col: y-1, value: (board[x][y] * 2))
+                        score = score + board[x][y-1]
                         ChangeNodeNumber(row: x, col: y, value: 0)
+                        moved = true
                     }
                 }
                 for y in 0...3
@@ -233,6 +254,7 @@ class GameScene: SKScene {
                         if (board[x][i] == 0){
                             ChangeNodeNumber(row: x, col: i, value: board[x][y])
                             ChangeNodeNumber(row: x, col: y, value: 0)
+                            moved = true
                             break
                         }
                     }
@@ -243,7 +265,6 @@ class GameScene: SKScene {
             {
                 for y in (0...3).reversed()
                 {
-                    print(y)
                     if (y == 3){
                         continue
                     }
@@ -251,6 +272,7 @@ class GameScene: SKScene {
                         if (board[x][i] == 0){
                             ChangeNodeNumber(row: x, col: i, value: board[x][y])
                             ChangeNodeNumber(row: x, col: y, value: 0)
+                            moved = true
                             break
                         }
                     }
@@ -262,7 +284,9 @@ class GameScene: SKScene {
                     }
                     if (board[x][y+1] == board[x][y]){
                         ChangeNodeNumber(row: x, col: y+1, value: (board[x][y] * 2))
+                        score = score + board[x][y+1]
                         ChangeNodeNumber(row: x, col: y, value: 0)
+                        moved = true
                     }
                 }
                 for y in (0...3).reversed()
@@ -274,6 +298,95 @@ class GameScene: SKScene {
                         if (board[x][i] == 0){
                             ChangeNodeNumber(row: x, col: i, value: board[x][y])
                             ChangeNodeNumber(row: x, col: y, value: 0)
+                            moved = true
+                            break
+                        }
+                    }
+                }
+            }
+        case 2:
+            for y in 0...3
+            {
+                for x in 0...3
+                {
+                    if (x == 0){
+                        continue
+                    }
+                    for i in 0...x{
+                        if (board[i][y] == 0){
+                            ChangeNodeNumber(row: i, col: y, value: board[x][y])
+                            ChangeNodeNumber(row: x, col: y, value: 0)
+                            moved = true
+                            break
+                        }
+                    }
+                }
+                for x in 0...3
+                {
+                    if (x == 0){
+                        continue
+                    }
+                    if (board[x-1][y] == board[x][y]){
+                        ChangeNodeNumber(row: x-1, col: y, value: (board[x][y] * 2))
+                        score = score + board[x-1][y]
+                        ChangeNodeNumber(row: x, col: y, value: 0)
+                        moved = true
+                    }
+                }
+                for x in 0...3
+                {
+                    if (x == 0){
+                        continue
+                    }
+                    for i in 0...x{
+                        if (board[i][y] == 0){
+                            ChangeNodeNumber(row: i, col: y, value: board[x][y])
+                            ChangeNodeNumber(row: x, col: y, value: 0)
+                            moved = true
+                            break
+                        }
+                    }
+                }
+            }
+        case 3:
+            for y in 0...3
+            {
+                for x in (0...3).reversed()
+                {
+                    if (x == 3){
+                        continue
+                    }
+                    for i in (x...3).reversed(){
+                        if (board[i][y] == 0){
+                            ChangeNodeNumber(row: i, col: y, value: board[x][y])
+                            ChangeNodeNumber(row: x, col: y, value: 0)
+                            moved = true
+                            break
+                        }
+                    }
+                }
+                for x in (0...3).reversed()
+                {
+                    if (x == 3){
+                        continue
+                    }
+                    if (board[x+1][y] == board[x][y]){
+                        ChangeNodeNumber(row: x+1, col: y, value: (board[x][y] * 2))
+                        score = score + board[x+1][y]
+                        ChangeNodeNumber(row: x, col: y, value: 0)
+                        moved = true
+                    }
+                }
+                for x in (0...3).reversed()
+                {
+                    if (x == 3){
+                        continue
+                    }
+                    for i in (x...3).reversed(){
+                        if (board[i][y] == 0){
+                            ChangeNodeNumber(row: i, col: y, value: board[x][y])
+                            ChangeNodeNumber(row: x, col: y, value: 0)
+                            moved = true
                             break
                         }
                     }
@@ -282,16 +395,43 @@ class GameScene: SKScene {
         default:
             print("default")
         }
+        if (moved){
+            AddNumber()
+            cheekyLeft = false
+            cheekyRight = false
+            cheekyUp = false
+            cheekyDown = false
+        }
+        else{
+            switch direction {
+            case 0:
+                cheekyLeft = true
+            case 1:
+                cheekyRight = true
+            case 2:
+                cheekyUp = true
+            case 3:
+                cheekyDown = true
+            default:
+                print("Hey guys!")
+            }
+        }
+        scoreLabel?.text = ("Score: " + String(score))
     }
     
     func InitializeGame(){
         board = Array(repeating: Array(repeating: 0, count: 4), count: 4)
+        score = 0
         let diceRoll1 = Int(arc4random_uniform(4))
         let diceRoll2 = Int(arc4random_uniform(4))
-        
-        let diceRoll3 = Int(arc4random_uniform(4))
-        let diceRoll4 = Int(arc4random_uniform(4))
-        
+
+        var diceRoll3 = Int(arc4random_uniform(4))
+        var diceRoll4 = Int(arc4random_uniform(4))
+
+        while (diceRoll1 == diceRoll3 && diceRoll2 == diceRoll4) {
+            diceRoll3 = Int(arc4random_uniform(4))
+            diceRoll4 = Int(arc4random_uniform(4))
+        }
         let diceRoll5 = Int(arc4random_uniform(2) + 1)
         let diceRoll6 = 1
         
