@@ -79,15 +79,17 @@ class GameScene: SKScene {
     
     func swipedRight(recognizer:UISwipeGestureRecognizer){
         print("swiped right")
+        CalculateTurn(direction: 1)
     }
     
     func swipedLeft(recognizer:UISwipeGestureRecognizer){
         print("swiped left")
+        CalculateTurn(direction: 0)
     }
     
     func swipedUp(recognizer:UISwipeGestureRecognizer){
         print("swiped up")
-        ChangeNodeNumber(row: 2,col: 2,value: 2)
+        CalculateTurn(direction: 2)
     }
     
     func swipedDown(recognizer:UISwipeGestureRecognizer){
@@ -122,49 +124,164 @@ class GameScene: SKScene {
     func ChangeNodeNumber(row:Int, col:Int, value:Int){
         self.selectedShape = self.childNode(withName: (String(row) + String(col))) as? SKShapeNode
         self.selectedLabel = selectedShape?.childNode(withName: "num") as? SKLabelNode
-        
+        board[row][col] = value
         
         switch value {
         case 0:
             selectedShape?.fillColor = color_Zero!
         case 2:
             selectedShape?.fillColor = color_P1!
+            selectedLabel?.fontSize = CGFloat(font_1D)
         case 4:
             selectedShape?.fillColor = color_P2!
+            selectedLabel?.fontSize = CGFloat(font_1D)
         case 8:
             selectedShape?.fillColor = color_P3!
+            selectedLabel?.fontSize = CGFloat(font_1D)
         case 16:
             selectedShape?.fillColor = color_P4!
+            selectedLabel?.fontSize = CGFloat(font_1D)
         case 32:
             selectedShape?.fillColor = color_P5!
+            selectedLabel?.fontSize = CGFloat(font_1D)
         case 64:
             selectedShape?.fillColor = color_P6!
+            selectedLabel?.fontSize = CGFloat(font_1D)
         case 128:
             selectedShape?.fillColor = color_P7!
+            selectedLabel?.fontSize = CGFloat(font_2D)
         case 256:
             selectedShape?.fillColor = color_P8!
+            selectedLabel?.fontSize = CGFloat(font_2D)
         case 512:
             selectedShape?.fillColor = color_P9!
+            selectedLabel?.fontSize = CGFloat(font_2D)
         case 1024:
             selectedShape?.fillColor = color_P10!
+            selectedLabel?.fontSize = CGFloat(font_3D)
         case 2048:
             selectedShape?.fillColor = color_P11!
+            selectedLabel?.fontSize = CGFloat(font_3D)
         default:
             selectedShape?.fillColor = color_Zero!
         }
         
         
-        if (value < 5)
+        if (value == 0)
+        {
+            selectedLabel?.text = ""
+        }
+        else if(value < 5)
         {
             selectedLabel?.fontColor = color_Dark
+            selectedLabel?.text = String(value)
         }
         else
         {
-            selectedLabel?.fontColor = color_Dark
+            selectedLabel?.fontColor = color_Light
+            selectedLabel?.text = String(value)
         }
-        selectedLabel?.text = String(value)
         
         
+        
+    }
+    
+    func CalculateTurn(direction:Int){
+        
+        switch direction {
+        case -1:
+            for x in 0...3
+            {
+                for y in 0...3
+                {
+                    ChangeNodeNumber(row: x, col: y, value: board[x][y])
+                }
+            }
+            //LEFT
+        case 0:
+            for x in 0...3
+            {
+                for y in 0...3
+                {
+                    if (y == 0){
+                        continue
+                    }
+                    for i in 0...y{
+                        if (board[x][i] == 0){
+                            ChangeNodeNumber(row: x, col: i, value: board[x][y])
+                            ChangeNodeNumber(row: x, col: y, value: 0)
+                            break
+                        }
+                    }
+                }
+                for y in 0...3
+                {
+                    if (y == 0){
+                        continue
+                    }
+                    if (board[x][y-1] == board[x][y]){
+                        ChangeNodeNumber(row: x, col: y-1, value: (board[x][y] * 2))
+                        ChangeNodeNumber(row: x, col: y, value: 0)
+                    }
+                }
+                for y in 0...3
+                {
+                    if (y == 0){
+                        continue
+                    }
+                    for i in 0...y{
+                        if (board[x][i] == 0){
+                            ChangeNodeNumber(row: x, col: i, value: board[x][y])
+                            ChangeNodeNumber(row: x, col: y, value: 0)
+                            break
+                        }
+                    }
+                }
+            }
+        case 1:
+            for x in 0...3
+            {
+                for y in (0...3).reversed()
+                {
+                    print(y)
+                    if (y == 3){
+                        continue
+                    }
+                    for i in (y...3).reversed(){
+                        if (board[x][i] == 0){
+                            ChangeNodeNumber(row: x, col: i, value: board[x][y])
+                            ChangeNodeNumber(row: x, col: y, value: 0)
+                            break
+                        }
+                    }
+                }
+                for y in (0...3).reversed()
+                {
+                    if (y == 3){
+                        continue
+                    }
+                    if (board[x][y+1] == board[x][y]){
+                        ChangeNodeNumber(row: x, col: y+1, value: (board[x][y] * 2))
+                        ChangeNodeNumber(row: x, col: y, value: 0)
+                    }
+                }
+                for y in (0...3).reversed()
+                {
+                    if (y == 3){
+                        continue
+                    }
+                    for i in (y...3).reversed(){
+                        if (board[x][i] == 0){
+                            ChangeNodeNumber(row: x, col: i, value: board[x][y])
+                            ChangeNodeNumber(row: x, col: y, value: 0)
+                            break
+                        }
+                    }
+                }
+            }
+        default:
+            print("default")
+        }
     }
     
     func InitializeGame(){
@@ -176,12 +293,13 @@ class GameScene: SKScene {
         let diceRoll4 = Int(arc4random_uniform(4))
         
         let diceRoll5 = Int(arc4random_uniform(2) + 1)
-        let diceRoll6 = Int(arc4random_uniform(2) + 1)
+        let diceRoll6 = 1
         
         board[diceRoll1][diceRoll2] = 2 ** diceRoll5;
         board[diceRoll3][diceRoll4] = 2 ** diceRoll6;
         print("Location: ",diceRoll1," ",diceRoll2 ,". Number",board[diceRoll1][diceRoll2])
         print("Location: ",diceRoll3," ",diceRoll4 ,". Number",board[diceRoll3][diceRoll4])
+        CalculateTurn(direction: -1)
     }
     
    
