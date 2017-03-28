@@ -63,6 +63,11 @@ class GameOverScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+            if let scene = TitleScene(fileNamed: "TitleScene") {
+                scene.scaleMode = .aspectFill
+                self.scene?.view?.presentScene(scene, transition: SKTransition.doorway(withDuration: 1.0));
+            }
         if let label = self.label {
             label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
         }

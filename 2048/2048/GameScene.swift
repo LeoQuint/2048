@@ -9,6 +9,10 @@
 import SpriteKit
 import GameplayKit
 
+struct defaultKeys{
+    static let keys : [String] = ["highScore1", "highScore2", "highScore3", "highScore4", "highScore5", "highScore6", "highScore7", "highScore8", "highScore9", "highScore10"]
+}
+
 class GameScene: SKScene {
     
     private var btn_newGame: SKLabelNode?
@@ -16,12 +20,15 @@ class GameScene: SKScene {
     private var selectedShape: SKShapeNode?
     private var selectedLabel: SKLabelNode?
     private var scoreLabel: SKLabelNode?
+    private var highScoreLabel: SKLabelNode?
     
     private var cheekyDown = false
     private var cheekyUp = false
     private var cheekyLeft = false
     private var cheekyRight = false
 
+    private var scores = Array(repeating: 0, count: 10)
+    
     private var score = 0
     //Colors tiles
     private var color_Zero: SKColor? = SKColor (colorLiteralRed: 0.8, green: 0.76, blue: 0.71, alpha: 1.0)
@@ -52,13 +59,6 @@ class GameScene: SKScene {
         self.btn_newGame = self.childNode(withName: "btn_newGame") as? SKLabelNode
         self.btn_return = self.childNode(withName: "btn_Return") as? SKLabelNode
         
-        if (cheekyDown && cheekyUp && cheekyLeft && cheekyRight){
-            if let scene = GameOverScene(fileNamed: "GameOverScene") {
-                scene.scaleMode = .aspectFill
-                self.scene?.view?.presentScene(scene, transition: SKTransition.doorway(withDuration: 1.0));
-            }
-        }
-        
         let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedRight(recognizer:)))
         swipeRight.direction = .right
         view.addGestureRecognizer(swipeRight)
@@ -83,6 +83,7 @@ class GameScene: SKScene {
     override func sceneDidLoad() {
         InitializeGame()
         self.scoreLabel = self.childNode(withName: "lbl_Score") as? SKLabelNode
+        self.highScoreLabel = self.childNode(withName: "lbl_HighScore") as? SKLabelNode
     }
 
     
@@ -417,10 +418,38 @@ class GameScene: SKScene {
             }
         }
         scoreLabel?.text = ("Score: " + String(score))
+        if (cheekyDown && cheekyUp && cheekyLeft && cheekyRight){
+            if let scene = GameOverScene(fileNamed: "GameOverScene") {
+                scene.scaleMode = .aspectFill
+                self.scene?.view?.presentScene(scene, transition: SKTransition.doorway(withDuration: 1.0));
+            }
+        }
+    }
+    
+    func LoadScore()
+    {
+        let defaults = UserDefaults.standard
+        for i in 0...10
+        {
+            scores[i] = Int(defaults.string(forKey: defaultKeys.keys[i])!)!
+        }
+    }
+    
+    func SaveScore()
+    {
+        let defaults = UserDefaults.standard
+        scores.sort{return $0>$1}
+        for i in 0...10
+        {
+            defaults.setValue(scores[i], forKey: defaultKeys.keys[i])
+        }
+        defaults.synchronize()
     }
     
     func InitializeGame(){
         board = Array(repeating: Array(repeating: 0, count: 4), count: 4)
+        highScoreLabel?.text = ("High Score: " + String(scores[0]))
+        
         score = 0
         let diceRoll1 = Int(arc4random_uniform(4))
         let diceRoll2 = Int(arc4random_uniform(4))
