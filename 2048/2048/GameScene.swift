@@ -19,25 +19,25 @@ class GameScene: SKScene {
     
     
     //Colors tiles
-    private var color_Zero: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)
-    private var color_P1: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//2
-    private var color_P2: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//4
-    private var color_P3: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//8
-    private var color_P4: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//16
-    private var color_P5: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//32
-    private var color_P6: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//64
-    private var color_P7: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//128
-    private var color_P8: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//256
-    private var color_P9: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//516
-    private var color_P10: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//1024
-    private var color_P11: SKColor? = SKColor (colorLiteralRed: 0.1, green: 0.2, blue: 1.0, alpha: 1.0)//2048
+    private var color_Zero: SKColor? = SKColor (colorLiteralRed: 0.8, green: 0.76, blue: 0.71, alpha: 1.0)
+    private var color_P1: SKColor? = SKColor (colorLiteralRed: 0.93, green: 0.89, blue: 0.85, alpha: 1.0)//2
+    private var color_P2: SKColor? = SKColor (colorLiteralRed: 0.93, green: 0.88, blue: 0.78, alpha: 1.0)//4
+    private var color_P3: SKColor? = SKColor (colorLiteralRed: 0.95, green: 0.69, blue: 0.47, alpha: 1.0)//8
+    private var color_P4: SKColor? = SKColor (colorLiteralRed: 0.96, green: 0.58, blue: 0.39, alpha: 1.0)//16
+    private var color_P5: SKColor? = SKColor (colorLiteralRed: 0.97, green: 0.49, blue: 0.37, alpha: 1.0)//32
+    private var color_P6: SKColor? = SKColor (colorLiteralRed: 0.97, green: 0.37, blue: 0.24, alpha: 1.0)//64
+    private var color_P7: SKColor? = SKColor (colorLiteralRed: 0.93, green: 0.81, blue: 0.44, alpha: 1.0)//128
+    private var color_P8: SKColor? = SKColor (colorLiteralRed: 0.93, green: 0.80, blue: 0.38, alpha: 1.0)//256
+    private var color_P9: SKColor? = SKColor (colorLiteralRed: 0.93, green: 0.78, blue: 0.31, alpha: 1.0)//512
+    private var color_P10: SKColor? = SKColor (colorLiteralRed: 0.93, green: 0.77, blue: 0.25, alpha: 1.0)//1024
+    private var color_P11: SKColor? = SKColor (colorLiteralRed: 0.93, green: 0.76, blue: 0.18, alpha: 1.0)//2048
     //colors font
-    private var color_Dark: SKColor? = SKColor (colorLiteralRed: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
+    private var color_Dark: SKColor? = SKColor (colorLiteralRed: 0.47, green: 0.43, blue: 0.40, alpha: 1.0)
     private var color_Light: SKColor? = SKColor (colorLiteralRed: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     //Font size
     private var font_1D = 48
-    private var font_2D = 46
-    private var font_3D = 40
+    private var font_2D = 48
+    private var font_3D = 46
     private var font_4D = 36
 
     
@@ -142,13 +142,13 @@ class GameScene: SKScene {
         case 128:
             selectedShape?.fillColor = color_P7!
         case 256:
-            selectedShape?.fillColor = color_P1!
-        case 516:
-            selectedShape?.fillColor = color_P1!
+            selectedShape?.fillColor = color_P8!
+        case 512:
+            selectedShape?.fillColor = color_P9!
         case 1024:
-            selectedShape?.fillColor = color_P1!
+            selectedShape?.fillColor = color_P10!
         case 2048:
-            selectedShape?.fillColor = color_P1!
+            selectedShape?.fillColor = color_P11!
         default:
             selectedShape?.fillColor = color_Zero!
         }
